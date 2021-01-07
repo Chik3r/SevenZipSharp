@@ -35,20 +35,33 @@ namespace SevenZip
 
         private static string DetermineLibraryFilePath()
         {
-            //if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["7zLocation"]))
-            //{
-            //    return ConfigurationManager.AppSettings["7zLocation"];
-            //}
-	
-            //if (string.IsNullOrEmpty(Assembly.GetExecutingAssembly().Location)) 
-            //{
-            //    return null;
-            //}
+	        //if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["7zLocation"]))
+	        //{
+	        //    return ConfigurationManager.AppSettings["7zLocation"];
+	        //}
 
-            //return Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), Environment.Is64BitProcess ? "7z64.dll" : "7z.dll");
-            string usernameFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            return Path.Combine(usernameFolder, @"Documents\My Games\Terraria\ModLoader\tConfigWrapper",
-	            Environment.Is64BitProcess ? "7z64.dll" : "7z.dll");
+	        //if (string.IsNullOrEmpty(Assembly.GetExecutingAssembly().Location)) 
+	        //{
+	        //    return null;
+	        //}
+
+	        //return Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), Environment.Is64BitProcess ? "7z64.dll" : "7z.dll");
+	        string usernameFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+	        string dllFile = Environment.Is64BitProcess ? "7z64.dll" : "7z.dll";
+	        switch (Environment.OSVersion.Platform)
+	        {
+		        case PlatformID.MacOSX:
+			        return Path.Combine("~/Library/Application support/Terraria/ModLoader/", "tConfigWrapper", dllFile);
+		        case PlatformID.Unix:
+			        return Path.Combine("~/.local/share/Terraria/ModLoader/", "tConfigWrapper", dllFile);
+		        case PlatformID.Win32NT:
+		        case PlatformID.Win32S:
+		        case PlatformID.Win32Windows:
+		        case PlatformID.WinCE:
+			        return Path.Combine(usernameFolder, @"Documents\My Games\Terraria\ModLoader\tConfigWrapper", dllFile);
+                default:
+	                return "";
+	        }
         }
 
         /// <summary>
