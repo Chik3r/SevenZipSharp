@@ -35,17 +35,20 @@ namespace SevenZip
 
         private static string DetermineLibraryFilePath()
         {
-            if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["7zLocation"]))
-            {
-                return ConfigurationManager.AppSettings["7zLocation"];
-            }
+            //if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["7zLocation"]))
+            //{
+            //    return ConfigurationManager.AppSettings["7zLocation"];
+            //}
 	
-            if (string.IsNullOrEmpty(Assembly.GetExecutingAssembly().Location)) 
-            {
-                return null;
-            }
+            //if (string.IsNullOrEmpty(Assembly.GetExecutingAssembly().Location)) 
+            //{
+            //    return null;
+            //}
 
-            return Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), Environment.Is64BitProcess ? "7z64.dll" : "7z.dll");
+            //return Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), Environment.Is64BitProcess ? "7z64.dll" : "7z.dll");
+            string usernameFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            return Path.Combine(usernameFolder, @"Documents\My Games\Terraria\ModLoader\tConfigWrapper",
+	            Environment.Is64BitProcess ? "7z64.dll" : "7z.dll");
         }
 
         /// <summary>
